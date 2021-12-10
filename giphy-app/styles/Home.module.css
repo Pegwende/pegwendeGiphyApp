@@ -108,6 +108,20 @@
   margin-left: 0.5rem;
 }
 
+.button{
+  height: 15px;
+  width: auto;
+  color: blue;
+}
+
+.inputForm {
+  margin: 50px;
+}
+
+.box{
+  font-size: larger;
+}
+
 @media (max-width: 600px) {
   .grid {
     width: 100%;
