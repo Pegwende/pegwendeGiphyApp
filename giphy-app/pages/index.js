@@ -2,7 +2,11 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
-export default function Home() {
+export default function Home({ data }) {
+
+  
+  console.log(data)
+
   return (
     <div className={styles.container}>
 
@@ -19,16 +23,25 @@ export default function Home() {
               </h1>
 
               <div className={styles.inputForm}>
-                <input className={styles.box} type="text" ></input>
-                <input className={styles.box} type="submit" ></input>
+                <form className='search'>
+                  <input className={styles.box} name="query" type="search"></input>
+                  <button className={styles.box} >Search</button>
+                </form>
               </div>
 
-              <div className={styles.grid}>
-                <a href="https://nextjs.org/docs" className={styles.card}>
-                  <h2>Documentation &rarr;</h2>
-                  <p>map GIFs here in the grid</p>
-                </a>
-              </div>
+              <ul className={styles.grid}>
+                  {data.map((gif) =>{
+                    const { id, title, image } = gif
+                    
+                    return (
+                        <li key={id} className={styles.card}>
+                          <img className={styles.img} src={image} alt='blank'></img>
+                          <h2>{title}</h2>
+                        </li>
+                    )         
+                    })}
+              </ul>
+                   
           </main>
 
 
@@ -48,4 +61,16 @@ export default function Home() {
 
     </div>
   )
+}
+
+export const getStaticProps = async () => {
+  const res = await fetch('http://localhost:3000/api/gif')
+  const data = await res.json()
+
+  return {
+    props: {
+      data
+    }
+  }
+
 }
