@@ -1,8 +1,45 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import { useState } from 'react'
 import styles from '../styles/Home.module.css'
 
 export default function Home({ data }) {
+
+  const [gif, setGif] = useState('')
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    
+     const getStaticProps = async () => {
+      const res = await fetch(`https://api.giphy.com/v1/gifs/search?api_key=RYPX1Dh9ls2o2pcSRqhauIFV2uUGzGok&q=${gif}&limit=9&offset=0&rating=g&lang=en`)
+      const data = await res.json()
+    
+      return {
+        props: {
+          data
+        }
+      }
+    
+    }
+
+
+    // const { currentTarget = {} } = event;
+    // const fields = Array.from(currentTarget?.elements);
+    // const fieldQuery = fields.find(field => field.name === 'query');
+
+    // const value = fieldQuery.value || '';
+    // const endpoint = `https://api.giphy.com/v1/gifs/search?api_key=RYPX1Dh9ls2o2pcSRqhauIFV2uUGzGok&q=${value}&limit=9&offset=0&rating=g&lang=en`
+
+    // updatePage({
+    //   current: endpoint
+    // })
+  }
+
+  const handleChange = (event) => {
+    setGif(event.target.value)
+    console.log(gif)
+  }
+
 
   
   console.log(data)
@@ -23,9 +60,9 @@ export default function Home({ data }) {
               </h1>
 
               <div className={styles.inputForm}>
-                <form className='search'>
-                  <input className={styles.box} name="query" type="search"></input>
-                  <button className={styles.box} >Search</button>
+                <form onSubmit={handleSubmit} className='search'>
+                  <input value={gif} onChange={handleChange} className={styles.box} placeholder='Search...' type="text"></input>
+                  <button className={styles.box} onClick={handleSubmit} >Search</button>
                 </form>
               </div>
 
