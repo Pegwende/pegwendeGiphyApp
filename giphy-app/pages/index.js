@@ -3,46 +3,28 @@ import Image from 'next/image'
 import { useState } from 'react'
 import styles from '../styles/Home.module.css'
 
-export default function Home({ data }) {
+export default function Home() {
 
+  // get the result from search box and stored it to gif
   const [gif, setGif] = useState('')
 
-  const handleSubmit = (event) => {
+  // store the the fetched data in results
+  const [results, setResults] = useState([])
+
+  //Update the fetch data when the form is submitted.
+  const handleSubmit = async ( event) => {
     event.preventDefault()
-    
-     const getStaticProps = async () => {
-      const res = await fetch(`https://api.giphy.com/v1/gifs/search?api_key=RYPX1Dh9ls2o2pcSRqhauIFV2uUGzGok&q=${gif}&limit=9&offset=0&rating=g&lang=en`)
-      const data = await res.json()
-    
-      return {
-        props: {
-          data
-        }
-      }
-    
-    }
-
-
-    // const { currentTarget = {} } = event;
-    // const fields = Array.from(currentTarget?.elements);
-    // const fieldQuery = fields.find(field => field.name === 'query');
-
-    // const value = fieldQuery.value || '';
-    // const endpoint = `https://api.giphy.com/v1/gifs/search?api_key=RYPX1Dh9ls2o2pcSRqhauIFV2uUGzGok&q=${value}&limit=9&offset=0&rating=g&lang=en`
-
-    // updatePage({
-    //   current: endpoint
-    // })
+    const res = await fetch(`http://localhost:3000/api/gif?q=${gif}`)
+    const data = await res.json()
+    setResults(data)
   }
 
+  // Update the gif value when the customer typed in search box
   const handleChange = (event) => {
     setGif(event.target.value)
-    console.log(gif)
   }
 
 
-  
-  console.log(data)
 
   return (
     <div className={styles.container}>
@@ -67,8 +49,8 @@ export default function Home({ data }) {
               </div>
 
               <ul className={styles.grid}>
-                  {data.map((gif) =>{
-                    const { id, title, image } = gif
+                  {results.map((result) =>{
+                    const { id, title, image } = result
                     
                     return (
                         <li key={id} className={styles.card}>
@@ -98,16 +80,4 @@ export default function Home({ data }) {
 
     </div>
   )
-}
-
-export const getStaticProps = async () => {
-  const res = await fetch('http://localhost:3000/api/gif')
-  const data = await res.json()
-
-  return {
-    props: {
-      data
-    }
-  }
-
 }
