@@ -1,5 +1,5 @@
 export const getApiData = async ( props ) => {
-    const res = await fetch(`https://api.giphy.com/v1/gifs/search?api_key=RYPX1Dh9ls2o2pcSRqhauIFV2uUGzGok&q=${props.q}&limit=9&offset=0&rating=g&lang=en`)
+    const res = await fetch(`https://api.giphy.com/v1/gifs/search?api_key=RYPX1Dh9ls2o2pcSRqhauIFV2uUGzGok&q=${props.q}&limit=20&offset=0&rating=g&lang=en`)
     const data = await res.json()
     return data
 
