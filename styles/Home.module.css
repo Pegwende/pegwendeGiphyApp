@@ -1,7 +1,7 @@
-.container {
+/* .container {
   padding: 0 2rem;
-}
-
+} */
+/* 
 .main {
   min-height: 100vh;
   padding: 4rem 0;
@@ -10,7 +10,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
+} */
 
 .footer {
   display: flex;
@@ -56,39 +56,30 @@
   font-size: 1.5rem;
 }
 
-.code {
+/* .code {
   background: #fafafa;
   border-radius: 5px;
   padding: 0.75rem;
   font-size: 1.1rem;
   font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
     Bitstream Vera Sans Mono, Courier New, monospace;
-}
+} */
 
 .grid {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-
-  max-width: 800px;
+  flex-direction: row;
+  max-width: 1200px;
   margin-top: 3rem;
-
-  list-style: none;
-  margin-left: 0;
+  margin-left: 8%;
   padding-left: 0;
 }
 
 .card {
-  margin: 1rem;
-  flex-basis: 45%;;
-  padding: 1.5rem;
-  text-align: left;
-  color: inherit;
-  text-decoration: none;
-  border: 1px solid #eaeaea;
-  border-radius: 10px;
-  transition: color 0.15s ease, border-color 0.15s ease;
+  display: flex;
+
 }
 
 .card:hover,
@@ -96,17 +87,6 @@
 .card:active {
   color: #0070f3;
   border-color: #0070f3;
-}
-
-.card h2 {
-  margin: 0 0 1rem 0;
-  font-size: 1.5rem;
-}
-
-.card p {
-  margin: 0;
-  font-size: 1.25rem;
-  line-height: 1.5;
 }
 
 .logo {
@@ -121,16 +101,32 @@
 }
 
 .inputForm {
+  text-align: center;
   margin: 50px;
 }
 
 .box{
   font-size: larger;
 }
-.img{
-  height: 200px;
-  width: 200px;
+
+.imgCont{
+  background-color: grey;
+  position: relative;
+  margin: 0.5rem;
+  /* flex-basis: 1%; */
+  padding: 1rem;
+  color: inherit;
+  text-decoration: none;
+  border: 1px solid #eaeaea;
+  border-radius: 10px;
+  transition: color 0.15s ease, border-color 0.15s ease;
 }
+.img{
+  height: 250px;
+  width: 240px;
+}
+
+
 
 @media (max-width: 600px) {
   .grid {

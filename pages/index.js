@@ -1,6 +1,8 @@
+/* eslint-disable @next/next/no-img-element */
 import Head from 'next/head'
 import Image from 'next/image'
 import { useState } from 'react'
+import InfiniteScroll from "react-infinite-scroll-component"
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
@@ -8,13 +10,16 @@ export default function Home() {
   // get the result from search box and stored it to gif
   const [gif, setGif] = useState('')
 
+  // to check if there are more data for infinite scrolling
+  const [hasMore, setHasMore] = useState(true)
+
   // store the the fetched data in results
   const [results, setResults] = useState([])
 
   //Update the fetch data when the form is submitted.
   const handleSubmit = async ( event) => {
     event.preventDefault()
-    const res = await fetch(`http://localhost:3000/api/gif?q=${gif}`)
+    const res = await fetch(`./api/gif?q=${gif}`)
     const data = await res.json()
     setResults(data)
   }
@@ -22,6 +27,15 @@ export default function Home() {
   // Update the gif value when the customer typed in search box
   const handleChange = (event) => {
     setGif(event.target.value)
+  }
+
+  //To load more post for infinite scrolling
+  const getMorePost = async () =>{
+    // const res = await fetch(`./api/gif?q=${gif}`);
+
+    // const newPosts = await res.json()
+    // console.log(newPosts)
+    // setResults((results) => [...results, ...newPosts])
   }
 
 
@@ -48,34 +62,32 @@ export default function Home() {
                 </form>
               </div>
 
-              <ul className={styles.grid}>
-                  {results.map((result) =>{
-                    const { id, title, image } = result
-                    
-                    return (
-                        <li key={id} className={styles.card}>
-                          <img className={styles.img} src={image} alt='blank'></img>
-                          <h2>{title}</h2>
-                        </li>
-                    )         
-                    })}
-              </ul>
+
+              <InfiniteScroll
+                dataLength={results.length}
+                next={getMorePost}
+                hasMore={hasMore}
+                loader={<h2>Loading...</h2>}
+                endMessage={<h2>Nothing more to show</h2>}
+              >
+                <ul className={styles.grid}>
+                    {results.map((result) =>{
+                      const { id, title, image } = result
+                      
+                      return (
+                          <li key={id} className={styles.card}>
+                            <div  className={styles.imgCont} >
+                             <video className={styles.img} src={image} /> 
+                            </div>
+                               
+                          </li>
+                      )         
+                      })}
+                </ul>
+              </InfiniteScroll>
+
                    
           </main>
-
-
-          <footer className={styles.footer}>
-              <a
-                href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Powered by{' '}
-                <span className={styles.logo}>
-                  <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-                </span>
-              </a>
-          </footer>
 
 
     </div>
