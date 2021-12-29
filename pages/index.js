@@ -6,7 +6,11 @@ import InfiniteScroll from "react-infinite-scroll-component"
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
-
+  
+  const myKey = 'RYPX1Dh9ls2o2pcSRqhauIFV2uUGzGok';
+  //set offset to zero since the api return data from a starting offsetNumber
+  let newOffset = 0;
+  
   // get the result from search box and stored it to gif
   const [gif, setGif] = useState('')
 
@@ -19,7 +23,7 @@ export default function Home() {
   //Update the fetch data when the form is submitted.
   const handleSubmit = async ( event) => {
     event.preventDefault()
-    const res = await fetch(`./api/gif?q=${gif}`)
+    const res = await fetch(`./api/gif?q=${gif}&offset=${newOffset}`)
     const data = await res.json()
     setResults(data)
   }
@@ -29,15 +33,17 @@ export default function Home() {
     setGif(event.target.value)
   }
 
-  //To load more post for infinite scrolling
+  //To load more post from infinite scrolling
   const getMorePost = async () =>{
-    // const res = await fetch(`./api/gif?q=${gif}`);
+    newOffset += results.length || 0
+    console.log("newOffset value", newOffset)
 
-    // const newPosts = await res.json()
-    // console.log(newPosts)
-    // setResults((results) => [...results, ...newPosts])
+    const res = await fetch(`./api/gif?q=${gif}&offset=${newOffset}`);
+    const newPosts = await res.json()
+    setResults(results => [...results, ...newPosts])
   }
 
+  
 
 
   return (
@@ -62,13 +68,10 @@ export default function Home() {
                 </form>
               </div>
 
-
               <InfiniteScroll
                 dataLength={results.length}
                 next={getMorePost}
-                hasMore={hasMore}
-                loader={<h2>Loading...</h2>}
-                endMessage={<h2>Nothing more to show</h2>}
+                hasMore={true}
               >
                 <ul className={styles.grid}>
                     {results.map((result) =>{
@@ -79,7 +82,6 @@ export default function Home() {
                             <div  className={styles.imgCont} >
                              <video className={styles.img} src={image} /> 
                             </div>
-                               
                           </li>
                       )         
                       })}
