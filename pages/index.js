@@ -7,7 +7,7 @@ import styles from '../styles/Home.module.css'
 
 export default function Home() {
   
-  const myKey = 'RYPX1Dh9ls2o2pcSRqhauIFV2uUGzGok';
+  const myKey = process.env.PRIVATE_API_KEY;
   //set offset to zero since the api return data from a starting offsetNumber
   let newOffset = 0;
   
@@ -37,7 +37,6 @@ export default function Home() {
   const getMorePost = async () =>{
     newOffset += results.length || 0
     console.log("newOffset value", newOffset)
-
     const res = await fetch(`./api/gif?q=${gif}&offset=${newOffset}`);
     const newPosts = await res.json()
     setResults(results => [...results, ...newPosts])
