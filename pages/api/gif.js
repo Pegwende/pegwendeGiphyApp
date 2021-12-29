@@ -1,8 +1,7 @@
 export const getApiData = async ( props ) => {
-    const myKey = 'RYPX1Dh9ls2o2pcSRqhauIFV2uUGzGok'
+   const myKey = process.env.PRIVATE_API_KEY;
     const res = await fetch(`https://api.giphy.com/v1/gifs/search?api_key=${myKey}&q=${props.q}&limit=20&offset=${props.offset}&rating=g&lang=en`)
     const data = await res.json()
-    console.log( "This is the props ", props )
     return data
 
   }
